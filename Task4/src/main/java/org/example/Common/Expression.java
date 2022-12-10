@@ -1,4 +1,4 @@
-package org.example;
+package org.example.Common;
 
 public class Expression {
     private double first;

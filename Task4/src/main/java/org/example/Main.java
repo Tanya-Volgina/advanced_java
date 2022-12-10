@@ -1,30 +1,25 @@
 package org.example;
 
-import org.example.calculator.*;
+import org.example.Common.CalculationResult;
+import org.example.Readers.IReader;
+import org.example.Readers.Reader;
+import org.example.calculator.Calculator;
+import org.example.Common.Expression;
+import org.example.calculator.ICalculator;
 
 public class Main {
-    private static Reader reader = new Reader();
+    private static IReader reader = new Reader();
+    private static ICalculator calculator = new Calculator();
 
     public static void main(String[] args) {
-        Expression input = reader.readNumbers();
-        Calculator calculator = getCalculator(input.getSign());
+        Expression input = reader.read();
+        CalculationResult result = calculator.calculate(input);
 
-        try{
-            var answer = calculator.calculate(input.getFirst(), input.getSecond());
-            System.out.println(answer);
+        if(result.isValid()){
+            System.out.println(result.getResult());
         }
-        catch(Exception exception){
-            System.out.println(exception.getMessage());
+        else{
+            System.out.println(result.getError());
         }
-    }
-
-    private static Calculator getCalculator(String sign) {
-        return switch(sign) {
-            case "+" ->  new PlusCalculator();
-            case "-" -> new MinusCalculator();
-            case "/" -> new DivisionCalculator();
-            case "*" -> new MultiplyCalculator();
-            default -> null;
-        };
     }
 }
